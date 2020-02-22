@@ -1,0 +1,27 @@
+{
+  "name": "compra",
+  "version": "1.0.0",
+  "description": "shopping list webapp",
+  "main": "index.js",
+  "scripts": {
+    "test": "jasmine"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/talflon/compra.git"
+  },
+  "author": "Daniel Getz",
+  "license": "GPL-3.0-or-later",
+  "bugs": {
+    "url": "https://github.com/talflon/compra/issues"
+  },
+  "homepage": "https://github.com/talflon/compra#readme",
+  "devDependencies": {
+    "chromedriver": "^73.0.0",
+    "jasmine": "^3.5.0",
+    "selenium-webdriver": "^4.0.0-alpha.5"
+  },
+  "dependencies": {
+    "package.json": "^2.0.1"
+  }
+}
