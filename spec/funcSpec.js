@@ -35,4 +35,26 @@ describe("Test our homepage", () => {
     let row_texts = await Promise.all(rows.map(row => row.getText()));
     expect(row_texts).toContain('mandioca');
   });
+
+  it("lets you add two items", async () => {
+    await this.browser.get('http://localhost:8000');
+
+    let entry_box = await this.browser.findElement(By.id('new_item'));
+    await entry_box.sendKeys('pepino');
+    await entry_box.sendKeys(Key.ENTER);
+
+    await sleep(1000);
+
+    entry_box = await this.browser.findElement(By.id('new_item'));
+    await entry_box.sendKeys('tomate');
+    await entry_box.sendKeys(Key.ENTER);
+
+    await sleep(1000);
+
+    let list_table = await this.browser.wait(until.elementLocated(By.id('list_table')));
+    let rows = await list_table.findElements(By.tagName('tr'));
+    let row_texts = await Promise.all(rows.map(row => row.getText()));
+    expect(row_texts).toContain('pepino');
+    expect(row_texts).toContain('tomate');
+  });
 });
