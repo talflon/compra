@@ -1,3 +1,5 @@
+'use strict';
+
 const {Builder} = require('selenium-webdriver');
 const chrome = require('selenium-webdriver/chrome');
 
@@ -8,7 +10,10 @@ describe("Test that we can test", () => {
 
   it("can open browser", async () => {
     let driver = await new Builder().forBrowser('chrome').build();
-    expect(await driver.getCurrentUrl()).not.toBe(null);
-    await driver.quit();
+    try {
+      expect(await driver.getCurrentUrl()).not.toBe(null);
+    } finally {
+      await driver.quit();
+    }
   });
 });

@@ -1,3 +1,5 @@
+'use strict';
+
 const http = require('http');
 
 const hostname = '127.0.0.1';
@@ -14,6 +16,11 @@ const server = http.createServer((req, res) => {
       </head>
       <body>
         <h1>Compra!</h1>
+        <form method="POST">
+          <input name="item_name" id="new_item" />
+        </form>
+        <table id="list_table">
+        </table>
       </body>
     </html>
   `);
