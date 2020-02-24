@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Compra!</title>
+  </head>
+  <body>
+    <h1>Compra!</h1>
+    <form method="POST">
+      <input name="item_name" id="new_item" />
+    </form>
+    <table id="list_table">
+      {{#each items}}
+        <tr>
+          <td>{{ this }}</td>
+          <td><form action="/{{this}}" method="POST">
+            <input type="hidden" name="delete" value="true" />
+            <input type="submit" title="remove" value="X" />
+          </form></td>
+        </tr>
+      {{/each}}
+    </table>
+  </body>
+</html>
