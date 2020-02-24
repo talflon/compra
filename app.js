@@ -37,7 +37,8 @@ app.get('/', (req, res) => {
 });
 
 app.post('/', (req, res) => {
-  items.push(req.body['item_name']);
+  let name = req.body['item_name'];
+  if (name) items.push(name);
   res.send(template({ items: items }));
 });
 
