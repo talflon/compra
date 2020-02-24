@@ -20,7 +20,13 @@ const template = Handlebars.compile(`
       </form>
       <table id="list_table">
         {{#each items}}
-          <tr><td>{{ this }}</td></tr>
+          <tr>
+            <td>{{ this }}</td>
+            <td><form action="/{{this}}" method="POST">
+              <input type="hidden" name="delete" value="true" />
+              <input type="submit" title="remove" value="X" />
+            </form></td>
+          </tr>
         {{/each}}
       </table>
     </body>
@@ -41,6 +47,13 @@ app.post('/', (req, res) => {
   let name = req.body['item_name'];
   if (name) items.add(name);
   res.send(template({ items: items.items }));
+});
+
+app.post('/:itemName', (req, res) => {
+  if (req.body['delete']) {
+    items.remove(req.params['itemName']);
+  }
+  res.redirect('/');
 });
 
 app.listen(port, hostname, () => {

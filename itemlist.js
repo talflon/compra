@@ -9,6 +9,12 @@ ItemList.prototype = {
     if (!this.items.includes(name)) {
       this.items.push(name);
     }
+  },
+  remove: function(name) {
+    let i = this.items.indexOf(name);
+    if (i >= 0) {
+      this.items.splice(i, 1);
+    }
   }
 };
 

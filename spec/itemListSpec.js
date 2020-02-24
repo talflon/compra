@@ -37,3 +37,12 @@ describe("ItemList.add", () => {
     expect(items.items.filter(s => s === 'x').length).toBe(1);
   });
 });
+
+describe("ItemList.remove", () => {
+  it("removes the item from the list", () => {
+    let items = new ItemList();
+    items.items.push('blah');
+    items.remove('blah');
+    expect(items.items).not.toContain('blah');
+  });
+});

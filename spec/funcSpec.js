@@ -45,7 +45,7 @@ describe("Test our homepage", () => {
   });
 
   it("lets you add an item", async () => {
-    await this.browser.get('http://localhost:8000');
+    await this.browser.get(ROOT_URL);
     await addItem('mandioca');
     expect(await getListTexts()).toContain('mandioca');
   });
@@ -80,5 +80,23 @@ describe("Test our homepage", () => {
     await addItem('gelado');
     let row_texts = await getListTexts();
     expect(row_texts.filter(s => s === 'gelado').length).toBe(1);
+  });
+
+  it("lets you remove items", async () => {
+    await this.browser.get(ROOT_URL);
+    await addItem('cerveja');
+    let list_table = await getListTable();
+    let rows = await list_table.findElements(By.tagName('tr'));
+    let foundRows = [];
+    for (const row of rows) {
+      if ((await row.getText()).includes('cerveja')) {
+        foundRows.push(row);
+      }
+    }
+    expect(foundRows.length).toBe(1);
+    let closer = await foundRows[0].findElement(By.css("*[title='remove']"));
+    await closer.click();
+    await sleep(1000);
+    expect(await getListTexts()).not.toContain('cerveja');
   });
 });
