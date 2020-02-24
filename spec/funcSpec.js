@@ -21,9 +21,22 @@ describe("Test our homepage", () => {
   const getEntryBox = () => {
     return this.browser.wait(until.elementLocated(By.id('new_item')));
   }
+  
+  const addItem = async (name) => {
+    let entry_box = await getEntryBox();
+    await entry_box.sendKeys(name);
+    await entry_box.sendKeys(Key.ENTER);
+    await sleep(1000);
+  }
 
   const getListTable = () => {
     return this.browser.wait(until.elementLocated(By.id('list_table')));
+  }
+
+  const getListTexts = async () => {
+    let list_table = await getListTable();
+    let rows = await list_table.findElements(By.tagName('tr'));
+    return await Promise.all(rows.map(row => row.getText()));
   }
 
   it("has our title", async () => {
@@ -33,37 +46,15 @@ describe("Test our homepage", () => {
 
   it("lets you add an item", async () => {
     await this.browser.get('http://localhost:8000');
-
-    let entry_box = await getEntryBox();
-    await entry_box.sendKeys('mandioca');
-    await entry_box.sendKeys(Key.ENTER);
-
-    await sleep(1000);
-
-    let list_table = await getListTable();
-    let rows = await list_table.findElements(By.tagName('tr'));
-    let row_texts = await Promise.all(rows.map(row => row.getText()));
-    expect(row_texts).toContain('mandioca');
+    await addItem('mandioca');
+    expect(await getListTexts()).toContain('mandioca');
   });
 
   it("lets you add two items", async () => {
     await this.browser.get(ROOT_URL);
-
-    let entry_box = await getEntryBox();
-    await entry_box.sendKeys('pepino');
-    await entry_box.sendKeys(Key.ENTER);
-
-    await sleep(1000);
-
-    entry_box = await getEntryBox();
-    await entry_box.sendKeys('tomate');
-    await entry_box.sendKeys(Key.ENTER);
-
-    await sleep(1000);
-
-    let list_table = await getListTable();
-    let rows = await list_table.findElements(By.tagName('tr'));
-    let row_texts = await Promise.all(rows.map(row => row.getText()));
+    await addItem('pepino');
+    await addItem('tomate');
+    let row_texts = await getListTexts();
     expect(row_texts).toContain('pepino');
     expect(row_texts).toContain('tomate');
   });
@@ -81,5 +72,13 @@ describe("Test our homepage", () => {
     list_table = await getListTable();
     let newNumRows = (await list_table.findElements(By.tagName('tr'))).length;
     expect(newNumRows).toBe(oldNumRows);
+  });
+
+  it("does not add the same item twice", async () => {
+    await this.browser.get(ROOT_URL);
+    await addItem('gelado');
+    await addItem('gelado');
+    let row_texts = await getListTexts();
+    expect(row_texts.filter(s => s === 'gelado').length).toBe(1);
   });
 });
