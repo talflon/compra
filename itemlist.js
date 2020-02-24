@@ -1,20 +1,23 @@
 'use strict';
 
 function ItemList() {
-  this.items = [];
+  this.item_list = [];
 }
 
 ItemList.prototype = {
   add: function(name) {
-    if (!this.items.includes(name)) {
-      this.items.push(name);
+    if (!this.item_list.includes(name)) {
+      this.item_list.push(name);
     }
   },
   remove: function(name) {
-    let i = this.items.indexOf(name);
+    let i = this.item_list.indexOf(name);
     if (i >= 0) {
-      this.items.splice(i, 1);
+      this.item_list.splice(i, 1);
     }
+  },
+  getCurrent: function(name) {
+    return this.item_list
   }
 };
 

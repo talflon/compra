@@ -16,7 +16,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.get('/', (req, res) => {
-  res.render('index', { items: items.items });
+  res.render('index', { items: items.getCurrent() });
 });
 
 app.post('/', (req, res) => {
