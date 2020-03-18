@@ -11,14 +11,18 @@ function sleep(ms) {
 
 describe("Test our homepage", () => {
   beforeEach(async () => {
-    this.server = await createServer('localhost', 8765);
+    [this.server, this.browser] = await Promise.all([
+      createServer('localhost', 8765),
+      createBrowser(),
+    ]);
     this.ROOT_URL = this.server.url;
-    this.browser = await createBrowser();
   });
 
   afterEach(async () => {
-    await this.browser.quit();
-    await this.server.close();
+    await Promise.all([
+      this.browser.quit(),
+      this.server.close(),
+    ]);
   });
 
   const getEntryBox = () => {
