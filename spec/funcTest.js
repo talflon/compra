@@ -4,7 +4,11 @@ const {By, Key, until} = require('selenium-webdriver');
 
 const {createBrowser} = require('./defaults.js');
 
-const ROOT_URL = 'http://localhost:8000';
+if (process.env.COMPRAS_URL) {
+  var ROOT_URL = process.env.COMPRAS_URL;
+} else {
+  throw "Specify COMPRAS_URL=<the url>";
+}
 
 function sleep(ms) {
   return new Promise(r => setTimeout(r, ms));
