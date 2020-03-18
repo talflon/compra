@@ -1,7 +1,8 @@
 'use strict';
 
-const {Builder, By, Key, until} = require('selenium-webdriver');
-const chrome = require('selenium-webdriver/chrome');
+const {By, Key, until} = require('selenium-webdriver');
+
+const {createBrowser} = require('./defaults.js');
 
 const ROOT_URL = 'http://localhost:8000';
 
@@ -11,7 +12,7 @@ function sleep(ms) {
 
 describe("Test our homepage", () => {
   beforeEach(async () => {
-    this.browser = await new Builder().forBrowser('chrome').build();
+    this.browser = await createBrowser();
   });
 
   afterEach(async () => {

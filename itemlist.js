@@ -16,7 +16,7 @@ ItemList.prototype = {
       this.item_list.splice(i, 1);
     }
   },
-  getCurrent: function(name) {
+  getCurrent: function() {
     return this.item_list
   }
 };

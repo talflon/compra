@@ -1,7 +1,6 @@
 'use strict';
 
 const express = require('express');
-const Handlebars = require('handlebars');
 const {ItemList} = require('./itemlist.js');
 
 const hostname = '127.0.0.1';
