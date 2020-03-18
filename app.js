@@ -32,7 +32,7 @@ async function createServer(hostname, port) {
 
   let listener = app.listen(port, hostname);
   await once(listener, 'listening');
-  return {app, listener,
+  return {app, listener, items,
     url: `http://${hostname}:${port}`,
     close: () => { listener.close() },
   };

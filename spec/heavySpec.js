@@ -5,6 +5,8 @@ const {By, Key, until} = require('selenium-webdriver');
 const {createBrowser} = require('./defaults.js');
 const {createServer} = require('../app.js');
 
+const PORT = 8765;
+
 function sleep(ms) {
   return new Promise(r => setTimeout(r, ms));
 }
@@ -12,7 +14,7 @@ function sleep(ms) {
 describe("Test our homepage", () => {
   beforeEach(async () => {
     [this.server, this.browser] = await Promise.all([
-      createServer('localhost', 8765),
+      createServer('localhost', PORT),
       createBrowser(),
     ]);
     this.ROOT_URL = this.server.url;
@@ -105,5 +107,23 @@ describe("Test our homepage", () => {
     await closer.click();
     await sleep(1000);
     expect(await getListTexts()).not.toContain('cerveja');
+  });
+
+  it("remembers items after restart", async () => {
+    await this.browser.get(this.ROOT_URL);
+    await addItem('óculos');
+    await getListTexts();
+
+    await Promise.all([
+      this.browser.quit(),
+      this.server.close(),
+    ]);
+    [this.server, this.browser] = await Promise.all([
+      createServer('localhost', PORT),
+      createBrowser(),
+    ]);
+
+    await this.browser.get(this.ROOT_URL);
+    expect(await getListTexts()).toContain('óculos');
   });
 });
